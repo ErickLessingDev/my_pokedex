@@ -1,0 +1,29 @@
+
+import React, {useEffect, useState} from "react";
+import axios from "axios";
+
+const PokeImage = ({pokemonId}) => {
+    const [spriteUrl, setSpriteUrl] = useState('')
+
+    useEffect(() => {
+        const fetchPokemonDetails = async () => {
+            try{
+                const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonId}/`)
+                const spriteUrl = response.data.sprites.front_default
+                setSpriteUrl(spriteUrl)
+            } catch (e) {
+                console.log(e)
+            }
+        };
+        fetchPokemonDetails();
+    }, [pokemonId])
+
+
+    return (
+        <div >
+            {spriteUrl && <img className='sprite' src={spriteUrl}  alt={`Pokemon ${pokemonId}`} /> }
+        </div>
+    );
+};
+
+export default PokeImage;
